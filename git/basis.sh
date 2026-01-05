@@ -302,3 +302,23 @@ this:
 
 By default, the git push command doesn’t transfer tags to remote servers. You will have to explicitly
 push tags to a shared server after you have created them
+
+
+# lista
+git tag
+git tag -l "v1.*"
+
+# annotated tag dla release
+git tag -a v1.0.0 -m "Release v1.0.0"
+
+# tag na konkretny commit
+git tag -a v1.0.0 <sha> -m "Release v1.0.0"
+
+# wysłanie taga
+git push origin v1.0.0
+git push origin --tags
+git push origin --follow-tags
+
+# usunięcie taga
+git tag -d v1.0.0
+git push origin --delete v1.0.0
