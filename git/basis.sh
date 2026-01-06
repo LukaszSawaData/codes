@@ -436,3 +436,4 @@ working copy is what the branch looked like on your last commit to it.
 
 git checkout -b feature2 HEAD~1
 To jest jedno polecenie, które robi dwie rzeczy naraz.
+HEAD = branch, na którym merge’ujesz
