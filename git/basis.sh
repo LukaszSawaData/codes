@@ -432,3 +432,7 @@ on issue #53, and you can concentrate on your hotfix. This is an important point
 when you switch branches, Git resets your working directory to look like it did the last time you
 committed on that branch. It adds, removes, and modifies files automatically to make sure your
 working copy is what the branch looked like on your last commit to it.
+
+
+git checkout -b feature2 HEAD~1
+To jest jedno polecenie, które robi dwie rzeczy naraz.
