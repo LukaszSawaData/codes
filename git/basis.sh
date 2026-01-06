@@ -322,3 +322,98 @@ git push origin --follow-tags
 # usunięcie taga
 git tag -d v1.0.0
 git push origin --delete v1.0.0
+$ git checkout v2.0.0
+Note: switching to 'v2.0.0'.
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+git switch -c <new-branch-name>
+Or undo this operation with:
+git switch -
+Turn off this advice by setting config variable advice.detachedHead to false
+HEAD is now at 99ada87... Merge pull request #89 from schacon/appendix-final
+$ git checkout v2.0-beta-0.1
+Previous HEAD position was 99ada87... Merge pull request #89 from schacon/appendixfinal
+HEAD is now at df3f601... Add atlas.json and cover image
+
+Aliases
+$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
+This means that, for example, instead of typing git commit, you just need to type git ci. As you go
+on using Git, you can add more aliases for commands you use often.
+git config --global alias.unstage 'reset HEAD --' 
+$ git config --global alias.last 'log -1 HEAD'
+
+branching:
+git branch new_feature - tworzy nową gałąź new_feature
+git checkout new_feature - przełącza na gałąź new_feature
+git checkout -b new_feature - tworzy i przełącza na gałąź new_feature
+git branch -d new_feature - usuwa gałąź new_feature
+git branch -D new_feature - wymusza usunięcie gałęzi new_feature
+git merge new_feature - łączy gałąź new_feature z aktualną gałęzią
+git rebase main - przepisuje historię aktualnej gałęzi na bazie main
+git branch -a - pokazuje wszystkie gałęzie, w tym zdalne
+git branch -vv - pokazuje wszystkie gałęzie z informacją o ostatnim commicie
+git checkout - - przełącza na poprzednią gałąź
+git switch new_feature - przełącza na gałąź new_feature (nowa składnia          
+git switch -c new_feature - tworzy i przełącza na gałąź new_feature (nowa składnia          
+git switch - - przełącza na poprzednią gałąź (nowa składnia     
+
+When you make a commit, Git stores a commit object that contains a pointer to the snapshot of the
+content you staged. This object also contains the author’s name and email address, the message that
+you typed, and pointers to the commit or commits that directly came before this commit (its parent
+or parents): zero parents for the initial commit, one parent for a normal commit, and multiple
+parents for a commit that results from a merge of two or more branches.
+
+
+To visualize this, let’s assume that you have a directory containing three files, and you stage them
+all and commit. Staging the files computes a checksum for each one (the SHA-1 hash we mentioned
+in What is Git?), stores that version of the file in the Git repository (Git refers to them as blobs), and
+adds that checksum to the staging area:
+
+A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch
+name in Git is master. As you start making commits, you’re given a master branch that points to the
+last commit you made. Every time you commit, the master branch pointer moves forward
+automatically.
+
+How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note
+that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as
+Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case,
+you’re still on master. The git branch command only created a new branch — it didn’t switch to that
+65
+branch.
+
+sprawdzenie heade: git log --oneline --decorate
+
+git checkout testing
+This moves HEAD to point to the testing branch.
+
+When you create a new branch, what you’re really doing is creating a new pointer to the current
+commit. So, if you create a new branch called testing while you’re on master, both branches point to
+the same commit. When you switch to the testing branch, HEAD now points to testing instead of
+master. When you make a new commit, the testing branch pointer moves forward automatically
+to point to the new commit, while master stays where it is.
+
+git log --oneline --decorate
+--graph --all
+
+Creating a new branch and switching to it at the same time
+It’s typical to create a new branch and want to switch to that new branch at the
+same time — this can be done in one operation with git checkout -b
+<newbranchname>.
+
+From Git version 2.23 onwards you can use git switch instead of git checkout to:
+• Switch to an existing branch: git switch testing-branch.
+• Create a new branch and switch to it: git switch -c new-branch. The -c flag
+stands for create, you can also use the full flag: --create.
+• Return to your previously checked out branch: git switch -.
+
+$ git checkout -b iss53
+Switched to a new branch "iss53"
+This is shorthand for:
+$ git branch iss53
+$ git checkout iss53
