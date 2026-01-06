@@ -417,3 +417,18 @@ Switched to a new branch "iss53"
 This is shorthand for:
 $ git branch iss53
 $ git checkout iss53
+
+
+
+checkouting: 
+However, before you do that, note that if your working directory or staging area has uncommitted
+changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s
+best to have a clean working state when you switch branches. There are ways to get around this
+(namely, stashing and commit amending) that we’ll cover later on, in Stashing and Cleaning. For
+now, let’s assume you’ve committed all your changes, so you can switch back to your master branch:
+
+At this point, your project working directory is exactly the way it was before you started working
+on issue #53, and you can concentrate on your hotfix. This is an important point to remember:
+when you switch branches, Git resets your working directory to look like it did the last time you
+committed on that branch. It adds, removes, and modifies files automatically to make sure your
+working copy is what the branch looked like on your last commit to it.
