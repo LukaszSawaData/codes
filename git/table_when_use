@@ -1,0 +1,12 @@
+## Kiedy użyć którego polecenia Git
+
+| Sytuacja techniczna                                         | Cel użycia                               | Polecenie                    | Dlaczego                                                         |
+|-------------------------------------------------------------|------------------------------------------|------------------------------|------------------------------------------------------------------|
+| Gałąź feature gotowa, kilka osób nad nią pracowało          | Zachować pełną historię prac              | `git merge`                  | Nie zmienia SHA, bezpieczne zespołowo                            |
+| Feature mały, `main` nie zmienił się od jego utworzenia     | Liniowa historia bez dodatkowych commitów | `git merge` (fast-forward)   | Git tylko przesuwa wskaźnik gałęzi                               |
+| Feature lokalny, nikt jeszcze go nie pobrał                 | Uporządkować historię przed PR            | `git rebase`                 | Czyści historię, ale zmienia SHA                                 |
+| Commity typu `wip`, `fix`, `tmp`                            | Logiczne, czytelne commity                | `git rebase -i`              | Squash, reword, drop commitów                                   |
+| Jeden commit potrzebny w innej gałęzi                       | Przenieść pojedynczą zmianę               | `git cherry-pick`            | Kopiuje tylko wybrany commit                                    |
+| Hotfix z `main` do `release/*`                              | Backport poprawki                         | `git cherry-pick`            | Nie przenosisz całej gałęzi                                      |
+| Repo współdzielone, commity są już na remote                | Nie zmieniać historii                     | `git merge`                  | Rebase zepsułby historię innym                                  |
+| Wymagana liniowa historia na `main`                         | Brak merge commitów                      | rebase + fast-forward        | Wymaga dyscypliny i spójnych zasad zespołowych                  |
