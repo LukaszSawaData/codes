@@ -322,9 +322,11 @@ git push origin --follow-tags
 # usunięcie taga
 git tag -d v1.0.0
 git push origin --delete v1.0.0
+
 # usunięcie taga
 git tag -d v1.0.0
 git push origin --delete v1.0.0
+
 $ git checkout v2.0.0
 Note: switching to 'v2.0.0'.
 You are in 'detached HEAD' state. You can look around, make experimental
