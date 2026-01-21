@@ -322,6 +322,11 @@ git push origin --follow-tags
 # usunięcie taga
 git tag -d v1.0.0
 git push origin --delete v1.0.0
+
+# usunięcie taga
+git tag -d v1.0.0
+git push origin --delete v1.0.0
+
 $ git checkout v2.0.0
 Note: switching to 'v2.0.0'.
 You are in 'detached HEAD' state. You can look around, make experimental
@@ -437,3 +442,28 @@ working copy is what the branch looked like on your last commit to it.
 git checkout -b feature2 HEAD~1
 To jest jedno polecenie, które robi dwie rzeczy naraz.
 HEAD = branch, na którym merge’ujesz
+
+
+
+git rm -r --cached .terraform
+echo ".terraform/" >> .gitignore
+git add .gitignore
+git commit -m "Remove terraform provider cache from git"
+git push -u origin test_feat
+
+
+git rebase main
+git reset main
+git push -u origin test_feat --force
+git pull origin main
+git push -u origin main
+
+
+
+
+git rebase main
+git reset main
+git push -u origin test_feat --force
+git pull origin main
+git push -u origin main
+
