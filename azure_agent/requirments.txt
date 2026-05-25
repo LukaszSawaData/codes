@@ -1,0 +1,8 @@
+requests
+openai
+python-dotenv
+openmeteo_requests
+retry_requests
+pandas
+flask
+render_template

@@ -1,0 +1,85 @@
+name: CI/CD (dev+main CI, tags -> prod)
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    name: CI (dev/main)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/dev') || startsWith(github.ref, 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show context
+        run: |
+          echo "ref=${GITHUB_REF}"
+          echo "ref_name=${GITHUB_REF_NAME}"
+          echo "sha=${GITHUB_SHA}"
+
+      - name: Fake build
+        run: |
+          mkdir -p dist
+          echo "branch=${GITHUB_REF_NAME}" > dist/build-info.txt
+          echo "commit=${GITHUB_SHA}" >> dist/build-info.txt
+          echo "built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/build-info.txt
+          cat dist/build-info.txt
+
+      - name: Fake tests
+        run: |
+          test -f dist/build-info.txt
+
+  release_to_prod:
+    name: Release -> prod (tags only)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout the tag (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # (Opcjonalne, ale bardzo przydatne) Walidacja taga: vMAJOR.MINOR.PATCH
+      - name: Validate tag format (SemVer)
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "TAG=$TAG"
+          if ! echo "$TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Tag must be SemVer like v1.2.3"
+            exit 1
+          fi
+
+      - name: Build release artifact (demo)
+        run: |
+          mkdir -p dist
+          echo "tag=${GITHUB_REF_NAME}" > dist/release.txt
+          echo "commit=$(git rev-parse HEAD)" >> dist/release.txt
+          echo "built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/release.txt
+          cat dist/release.txt
+
+      # Najważniejszy krok: prod = dokładnie commit taga
+      - name: Update prod branch to this tag commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Ustaw prod tak, aby wskazywał na commit taga
+          git branch -f prod HEAD
+
+          # Wypchnij zmianę na zdalny prod (tylko z tagów)
+          git push origin prod:prod --force-with-lease
+
+      # Opcjonalnie: utwórz GitHub Release z assetem
+      - name: Create GitHub Release (optional)
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/release.txt
+          generate_release_notes: true

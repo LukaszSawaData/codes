@@ -1,0 +1,7 @@
+requests
+openai
+python-dotenv
+openmeteo_requests
+retry_requests
+pandas
+requests_cache

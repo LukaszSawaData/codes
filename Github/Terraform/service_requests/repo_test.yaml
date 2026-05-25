@@ -1,0 +1,18 @@
+org:
+  name: my-github-org
+  repos:
+    foo-api:
+      description: Foo API service
+      visibility: private
+      settings:
+        has_issues: true
+        has_wiki: false
+      security:
+        branch_protection:
+          branch: main
+          reviews_required: 2
+          code_owner_reviews: true
+          dismiss_stale_reviews: true
+          status_checks:
+            - ci/build
+            - ci/test

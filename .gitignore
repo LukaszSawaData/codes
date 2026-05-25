@@ -1,0 +1,9 @@
+
+Aws/secrets
+*.tfstate
+*.tfstate.*
+.terraform/
+
+
+# Secrets
+Aws/secrets

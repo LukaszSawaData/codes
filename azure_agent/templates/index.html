@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Azure Terraform Chat Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 24px;
+        }
+        h2 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 16px;
+        }
+        .chat-box {
+            height: 320px;
+            overflow-y: auto;
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            padding: 12px;
+            background: #f9fafc;
+            margin-bottom: 16px;
+        }
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        .user {
+            justify-content: flex-end;
+        }
+        .user .bubble {
+            background: #4f8cff;
+            color: #fff;
+            border-radius: 16px 16px 0 16px;
+        }
+        .assistant .bubble {
+            background: #e0e6ed;
+            color: #2d3a4b;
+            border-radius: 16px 16px 16px 0;
+        }
+        .bubble {
+            padding: 10px 16px;
+            max-width: 70%;
+            font-size: 15px;
+        }
+        .input-area {
+            display: flex;
+            gap: 8px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e0e6ed;
+            font-size: 15px;
+        }
+        button {
+            background: #4f8cff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #3570d1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Azure Terraform Chat Assistant</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <form class="input-area" id="chatForm">
+            <input type="text" id="userInput" placeholder="Type your Azure request..." autocomplete="off" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script>
+        const chatBox = document.getElementById('chatBox');
+        const chatForm = document.getElementById('chatForm');
+        const userInput = document.getElementById('userInput');
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.textContent = text;
+            msgDiv.appendChild(bubble);
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+            addMessage(message, 'user');
+            userInput.value = '';
+            addMessage('...', 'assistant');
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                // Remove the '...' placeholder
+                chatBox.removeChild(chatBox.lastChild);
+                addMessage(data.response, 'assistant');
+            } catch (err) {
+                chatBox.removeChild(chatBox.lastChild);
+                addMessage('Error: Unable to connect to the assistant.', 'assistant');
+            }
+        });
+    </script>
+</body>
+</html>
