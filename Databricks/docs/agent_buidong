@@ -10,3 +10,42 @@
 
 
 #Development
+1. Jak utrzymac Skille oraz instrukcje dla dystrybucji na inne pipeliny.
+2. Jak opisac testy dla pipelinow
+3. Skills do databricks asset bundles
+4. How to use pygentic
+5. How to run Skills, agents, @funkcje
+6. Jak korzystac z multiroom: https://code.visualstudio.com/docs/editing/workspaces/multi-root-workspaces
+7. Pierwszy task to jest analiza wraz z planem działania przed pisaniem kodu
+8. Describe the design pattern, layer separation, and how to navigate the codebase - Be very explicit — this prevents the agent from reading excessive files and burning tokens - Describe how you would search for information in the repo
+
+
+Set Strict Testing Rules
+Tests must fail when the code has a bug — no simulated or rewritten-to-pass tests
+Specify the test framework, fixture conventions, and where tests live
+Enforce a "Never" List
+No hardcoded secrets
+No mutable default arguments
+No bare except: blocks
+No generic data structures (raw dicts/lists) where typed models fit
+No optional types unless genuinely needed
+Define project-specific forbidden patterns
+Require Strict Typing
+All function parameters, return types, and non-obvious variables must be annotated
+Use modern syntax (int | None, not Optional[int]; list, not List)
+Agents overuse optionals and generic structures if you don't constrain them
+Write Actionable Rules, Not Aspirations
+✅ "Use pathlib for all file operations"
+❌ "Write clean, maintainable code"
+Short do/don't examples for non-obvious rules only
+Maintain and Evolve the File
+Make the agent document edge cases and lessons learned as it encounters them
+Monitor file bloat — prune aggressively after each growth cycle
+Treat the file as code: review changes in PRs, version in git
+Keep a build plan with milestones; refresh it as context compacts over long sessions
+
+
+
+# Spark log anaylize
+
+
