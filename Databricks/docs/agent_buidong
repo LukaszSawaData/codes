@@ -18,6 +18,7 @@
 6. Jak korzystac z multiroom: https://code.visualstudio.com/docs/editing/workspaces/multi-root-workspaces
 7. Pierwszy task to jest analiza wraz z planem działania przed pisaniem kodu
 8. Describe the design pattern, layer separation, and how to navigate the codebase - Be very explicit — this prevents the agent from reading excessive files and burning tokens - Describe how you would search for information in the repo
+9. JAK ZBUDOWAC TAKIE COS, ZE  https://idp.pg.com/docs/default/Component/AI_Factory_General/dev_environment/ai-coding-assistants/#devagent CI SIE odpala command line i masz tam opcje to zrobieia 
 
 
 Set Strict Testing Rules
